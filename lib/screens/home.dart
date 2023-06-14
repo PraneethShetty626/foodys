@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:foodyrest/domain/HttpClient/http_client.dart';
 import 'package:foodyrest/domain/entities/FoodItems.dart';
+import 'package:foodyrest/domain/entities/current_section.dart';
 import 'package:foodyrest/screens/comfirm_order.dart';
 import 'package:foodyrest/widgets/food_item_card.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -74,6 +75,8 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
+    final instance = Provider.of<LoggedIn>(context, listen: false).instance;
+
     var size = MediaQuery.of(context).size;
     final Order order = Provider.of<Order>(context, listen: true);
     return Padding(

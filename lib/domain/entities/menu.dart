@@ -11,7 +11,7 @@ class Menu {
 final List<Menu> menuList = [
   Menu(FontAwesomeIcons.home, "Home"),
   // Menu(FontAwesomeIcons.slack, "Categories"),
-  Menu(FontAwesomeIcons.solidHeart, "Admin Login"),
+  Menu(FontAwesomeIcons.solidHeart, "Admin Login/Logout"),
   Menu(FontAwesomeIcons.clipboardCheck, "Orders"),
   Menu(FontAwesomeIcons.productHunt, "Food Item's")
 ];

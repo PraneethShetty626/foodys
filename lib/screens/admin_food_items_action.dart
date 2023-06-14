@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:foodyrest/domain/HttpClient/http_client.dart';
 import 'package:foodyrest/domain/entities/FoodItems.dart';
+import 'package:foodyrest/domain/entities/current_section.dart';
 import 'package:foodyrest/screens/add_food.dart';
 import 'package:foodyrest/screens/comfirm_order.dart';
 import 'package:foodyrest/widgets/food_item_card.dart';
@@ -41,7 +42,7 @@ class _AdminFoodSettingState extends State<AdminFoodSetting> {
     setState(() {});
   }
 
-  Widget foods() {
+  Widget foods(String key) {
     return FutureBuilder(
       builder: ((context, snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
@@ -75,12 +76,14 @@ class _AdminFoodSettingState extends State<AdminFoodSetting> {
           child: CircularProgressIndicator(),
         );
       }),
-      future: HttpClient().get("/getAllFoods"),
+      future: HttpClient().getAllFoodSetting(key),
     );
   }
 
   @override
   Widget build(BuildContext context) {
+    final instance = Provider.of<LoggedIn>(context, listen: false).instance;
+
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
       child: ListView(
@@ -187,7 +190,7 @@ class _AdminFoodSettingState extends State<AdminFoodSetting> {
           ),
           const SizedBox(height: 30),
           const SizedBox(height: 50),
-          foods()
+          foods(instance!.getString("key")!)
         ],
       ),
     );

@@ -3,7 +3,9 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:foodyrest/domain/HttpClient/http_client.dart';
 import 'package:foodyrest/domain/entities/FoodItems.dart';
+import 'package:foodyrest/domain/entities/current_section.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 
 import 'food_item_card.dart';
 
@@ -34,6 +36,8 @@ class _AdminFoodSettingOptionsState extends State<AdminFoodSettingOptions> {
 
   @override
   Widget build(BuildContext context) {
+    final instance = Provider.of<LoggedIn>(context, listen: false).instance;
+
     return Material(
       borderRadius: BorderRadius.circular(
         10.0,
@@ -114,7 +118,8 @@ class _AdminFoodSettingOptionsState extends State<AdminFoodSettingOptions> {
                 Switch(
                     value: isAvailable,
                     onChanged: (val) => HttpClient()
-                        .setFoodUnavailable(widget.foodItem.name)
+                        .setFoodUnavailable(
+                            widget.foodItem.name, instance!.getString("key")!)
                         .then((value) => toggle())
                         .onError((error, stackTrace) => print(error))),
               ],

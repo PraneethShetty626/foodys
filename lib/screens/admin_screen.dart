@@ -3,6 +3,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:foodyrest/domain/HttpClient/http_client.dart';
+import 'package:foodyrest/domain/entities/current_section.dart';
 import 'package:foodyrest/domain/entities/customer_orders.dart';
 import 'package:foodyrest/widgets/custom_text_button.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -41,6 +42,8 @@ class _AllOrdersState extends State<AllOrders> {
   Widget build(BuildContext context) {
     final customerOrderNotifiee =
         Provider.of<CustomerOrderNotifiee>(context, listen: true);
+    final instance = Provider.of<LoggedIn>(context, listen: false);
+
     return FutureBuilder(
       builder: ((context, snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
@@ -135,7 +138,7 @@ class _AllOrdersState extends State<AllOrders> {
           child: CircularProgressIndicator(),
         );
       }),
-      future: HttpClient().getAllOrders(),
+      future: HttpClient().getAllOrders(instance.instance!.getString("key")!),
     );
   }
 }
@@ -158,6 +161,7 @@ class _OrderCardState extends State<OrderCard> {
   Widget build(BuildContext context) {
     final customerOrderNotifiee =
         Provider.of<CustomerOrderNotifiee>(context, listen: false);
+    final instance = Provider.of<LoggedIn>(context, listen: false).instance;
 
     return Material(
       borderRadius: BorderRadius.circular(
@@ -196,7 +200,8 @@ class _OrderCardState extends State<OrderCard> {
                   text: 'Confirm Deliverd',
                   onTap: () {
                     HttpClient()
-                        .setStausToDelivered(widget.customerOrders.order_id)
+                        .setStausToDelivered(widget.customerOrders.order_id,
+                            instance!.getString("key")!)
                         .then((value) => showDialog(
                             context: context,
                             builder: ((context) => AlertDialog(

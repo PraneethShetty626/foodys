@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:foodyrest/domain/HttpClient/http_client.dart';
+import 'package:foodyrest/domain/entities/current_section.dart';
 import 'package:foodyrest/widgets/custom_text_button.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 
 class AddFood extends StatefulWidget {
   final Function function;
@@ -28,6 +30,8 @@ class _AddFoodState extends State<AddFood> {
   final _formkey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
+    final instance = Provider.of<LoggedIn>(context, listen: false).instance;
+
     return AlertDialog(
       content: Container(
         // width: 600,
@@ -149,7 +153,8 @@ class _AddFoodState extends State<AddFood> {
             if (_formkey.currentState!.validate()) {
               _formkey.currentState!.save();
               HttpClient()
-                  .addFoodItem(name, urls[selectedOption], amount)
+                  .addFoodItem(name, urls[selectedOption], amount,
+                      instance!.getString("key")!)
                   .then((value) =>
                       widget.function(name, urls[selectedOption], amount))
                   .then((value) => Navigator.of(context).pop())

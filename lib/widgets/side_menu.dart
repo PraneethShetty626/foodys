@@ -24,7 +24,7 @@ class _SideMenuState extends State<SideMenu> {
   Widget build(BuildContext context) {
     final cSection = Provider.of<CurrentSection>(context, listen: false);
     final order = Provider.of<Order>(context, listen: false);
-
+    final logedin = Provider.of<LoggedIn>(context, listen: true).loggedIn;
     return Container(
       color: Colors.black,
       child: Column(
@@ -95,30 +95,33 @@ class _SideMenuState extends State<SideMenu> {
               .asMap()
               .map((index, item) => MapEntry(
                   index,
-                  MenuItemC(
-                    text: item.title,
-                    icon: item.icon,
-                    onTap: () {
-                      cSection.setSection(index);
+                  Visibility(
+                    visible: index == 0 || index == 1 ? true : logedin,
+                    child: MenuItemC(
+                      text: item.title,
+                      icon: item.icon,
+                      onTap: () {
+                        cSection.setSection(index);
 
-                      setState(() {
-                        currentSelectedIndex = index;
-                      });
-                      order.reset();
-                    },
-                    isSeleted: index == currentSelectedIndex,
-                    onHover: (value) {
-                      if (value) {
                         setState(() {
-                          currentHoveredIndex = index;
+                          currentSelectedIndex = index;
                         });
-                      } else {
-                        setState(() {
-                          currentHoveredIndex = null;
-                        });
-                      }
-                    },
-                    isHovered: currentHoveredIndex == index,
+                        order.reset();
+                      },
+                      isSeleted: index == currentSelectedIndex,
+                      onHover: (value) {
+                        if (value) {
+                          setState(() {
+                            currentHoveredIndex = index;
+                          });
+                        } else {
+                          setState(() {
+                            currentHoveredIndex = null;
+                          });
+                        }
+                      },
+                      isHovered: currentHoveredIndex == index,
+                    ),
                   )))
               .values
               .toList(),

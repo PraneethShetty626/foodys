@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:foodyrest/domain/entities/current_section.dart';
 
 import 'package:foodyrest/domain/entities/order.dart';
 import 'package:foodyrest/widgets/custom_text_button.dart';
@@ -141,7 +142,10 @@ class _ConfirmOrderState extends State<ConfirmOrder> {
                           formKey.currentState!.save();
                           if (widget.order.orderfooditemlist.isNotEmpty) {
                             HttpClient()
-                                .post("/order", widget.order.toJson())
+                                .post(
+                                  "/order",
+                                  widget.order.toJson(),
+                                )
                                 .then((value) => Navigator.of(context).pop())
                                 .then((value) => widget.order.reset())
                                 .onError((error, stackTrace) => print(error))

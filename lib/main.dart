@@ -8,6 +8,7 @@ import 'package:foodyrest/domain/entities/order.dart';
 import 'package:foodyrest/screens/admin_food_items_action.dart';
 import 'package:foodyrest/screens/admin_screen.dart';
 import 'package:foodyrest/screens/home.dart';
+import 'package:foodyrest/screens/sign_in_screen.dart';
 import 'package:foodyrest/widgets/restaurant_list.dart';
 import 'package:foodyrest/widgets/side_menu.dart';
 import 'package:http/http.dart' as http;
@@ -34,7 +35,8 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (_) => CustomerOrderNotifiee(),
-        )
+        ),
+        ChangeNotifierProvider(create: (_) => LoggedIn())
       ],
       child: const MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -71,7 +73,7 @@ class _HomeState extends State<MainPage> {
                 child: cSection.cs == 0
                     ? const Home()
                     : cSection.cs == 1
-                        ? Container()
+                        ? SignInScreen()
                         : cSection.cs == 2
                             ? const AdminPage()
                             : AdminFoodSetting(),
