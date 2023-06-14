@@ -68,8 +68,8 @@ class _AdminFoodSettingState extends State<AdminFoodSetting> {
             );
           }
 
-          return const Center(
-            child: Text("NO data present"),
+          return Center(
+            child: Text("Eror ${snapshot.data!.statusCode}}"),
           );
         }
         return const Center(

@@ -25,9 +25,6 @@ class HttpClient {
 
     return http.get(
       uri,
-      headers: {
-        "Content-Type": "application/json",
-      },
     );
   }
 
@@ -61,7 +58,6 @@ class HttpClient {
     return http.get(
       parseUrl("/getAllFoodsSetting"),
       headers: {
-        "Content-Type": "application/json",
         "Authorization": "Bearer $token",
       },
     );
